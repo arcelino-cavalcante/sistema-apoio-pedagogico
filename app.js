@@ -1113,10 +1113,12 @@ function setupDashboardListener() {
       }
     });
 
-    if (currentView === 'print' && document.getElementById('print-dashboard-panel').classList.contains('tab-panel--active')) {
+    const printDashboard = document.getElementById('print-dashboard-panel');
+    if (currentView === 'print' && printDashboard && printDashboard.classList.contains('tab-panel--active')) {
       renderTeacherDashboard();
     }
-    if (currentView === 'coordination' && document.getElementById('coord-dashboard-panel').classList.contains('tab-panel--active')) {
+    const coordDashboard = document.getElementById('coord-dashboard-panel');
+    if (currentView === 'coordination' && coordDashboard && coordDashboard.classList.contains('tab-panel--active')) {
       renderCoordDashboard();
     }
   });
@@ -1290,7 +1292,8 @@ function setupAllJobsListener() {
     });
     allJobs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-    if (currentView === 'coordination' && document.getElementById('coord-activities-panel').classList.contains('tab-panel--active')) {
+    const coordActPanel = document.getElementById('coord-activities-panel');
+    if (currentView === 'coordination' && coordActPanel && coordActPanel.classList.contains('tab-panel--active')) {
       renderCoordActivities();
     }
   });
@@ -1586,10 +1589,12 @@ function setupBookingsListener(dateStr) {
       currentBookings.push({ id: doc.id, ...doc.data() });
     });
     
-    if (document.getElementById('teacher-equipment-section').style.display === 'block') {
+    const teacherSection = document.getElementById('teacher-equipment-section');
+    if (teacherSection && teacherSection.style.display === 'block') {
       renderScheduleGrid();
     }
-    if (document.getElementById('view-equipment-admin').classList.contains('view--active')) {
+    const equipView = document.getElementById('view-equipment-admin');
+    if (equipView && equipView.classList.contains('view--active')) {
       renderAdminBookings();
     }
   });
@@ -1815,7 +1820,8 @@ function setupWithdrawalsListener(dateStr) {
     });
     currentWithdrawals.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-    if (document.getElementById('view-withdrawals-admin').classList.contains('view--active')) {
+    const withdrawalsView = document.getElementById('view-withdrawals-admin');
+    if (withdrawalsView && withdrawalsView.classList.contains('view--active')) {
       renderWithdrawals();
     }
   });
