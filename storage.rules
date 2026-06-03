@@ -1,0 +1,49 @@
+// ===========================================
+// SISTEMA DE APOIO PEDAGÓGICO
+// Regras de Segurança - Storage
+// ===========================================
+//
+// Os arquivos de impressão são armazenados em:
+//   print_files/
+//
+// Tipos permitidos: PDF, DOC, DOCX, JPG, PNG,
+//                    XLS, XLSX, PPT, PPTX
+// Tamanho máximo: 50MB (controlado no cliente)
+// ===========================================
+
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Arquivos de impressão
+    match /print_files/{fileName} {
+      // Qualquer um pode visualizar/baixar
+      allow read: if true;
+      
+      // Upload permitido (professores enviando atividades)
+      allow create: if true
+        && request.resource.size < 50 * 1024 * 1024  // max 50MB
+        && request.resource.contentType.matches('application/pdf|application/msword|application/vnd.openxmlformats-officedocument.wordprocessingml.document|image/jpeg|image/png|application/vnd.ms-excel|application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-powerpoint|application/vnd.openxmlformats-officedocument.presentationml.presentation');
+      
+      // Sem sobrescrita nem exclusão
+      allow update, delete: if false;
+    }
+
+    // Bloquear acesso a qualquer outro caminho
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+
+// ===========================================
+// FUTURO: Regras com Firebase Auth
+// ===========================================
+//
+// match /print_files/{fileName} {
+//   allow read: if request.auth != null;
+//   allow create: if request.auth != null
+//     && request.resource.size < 50 * 1024 * 1024;
+//   allow update, delete: if false;
+// }

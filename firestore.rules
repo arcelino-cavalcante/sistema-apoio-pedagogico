@@ -1,0 +1,61 @@
+// ===========================================
+// SISTEMA DE APOIO PEDAGÓGICO
+// Regras de Segurança - Firestore
+// ===========================================
+//
+// Coleções:
+//   print_jobs          - Solicitações de impressão
+//   equipment_bookings  - Reservas de equipamentos
+//   material_withdrawals - Retiradas de materiais
+//
+// O sistema usa senha fixa (12345) no cliente.
+// Sem Firebase Auth configurado, o acesso é público.
+// ===========================================
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --- Impressões ---
+    match /print_jobs/{docId} {
+      // Qualquer um pode ler (app precisa listar)
+      allow read: if true;
+      // Professores e sala de impressão podem criar
+      allow create: if true;
+      // Atualizar status (pending -> printed)
+      allow update: if true;
+      // Sem exclusão de documentos
+      allow delete: if false;
+    }
+
+    // --- Reservas de Equipamentos ---
+    match /equipment_bookings/{docId} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    // --- Retiradas de Materiais ---
+    match /material_withdrawals/{docId} {
+      allow read: if true;
+      allow create: if true;
+      // Permitir exclusão (botão ✕ no histórico)
+      allow delete: if true;
+      allow update: if false;
+    }
+  }
+}
+
+
+// ===========================================
+// FUTURO: Regras com Firebase Auth
+// (descomente após configurar autenticação)
+// ===========================================
+//
+// match /print_jobs/{docId} {
+//   allow read: if request.auth != null;
+//   allow create: if request.auth != null;
+//   allow update: if request.auth != null;
+//   allow delete: if false;
+// }
