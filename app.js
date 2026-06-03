@@ -1356,11 +1356,53 @@ function printCoordFile(itemId) {
 window.printCoordFile = printCoordFile;
 
 // ==========================================
+// AUTO CLEANUP
+// ==========================================
+
+async function runAutoCleanup() {
+  const now = new Date();
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+
+  // 1. Limpar print_jobs criados há mais de 7 dias
+  const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
+  try {
+    const oldJobsQuery = query(collection(db, "print_jobs"), where("createdAt", "<=", sevenDaysAgo));
+    const snapshot = await getDocs(oldJobsQuery);
+    let deleted = 0;
+    for (const docSnap of snapshot.docs) {
+      await deleteDoc(doc(db, "print_jobs", docSnap.id));
+      deleted++;
+    }
+    if (deleted > 0) console.log(`Auto-cleanup: ${deleted} impressões antigas removidas`);
+  } catch (e) {
+    console.warn("Auto-cleanup print_jobs:", e.message);
+  }
+
+  // 2. Limpar equipment_bookings de datas passadas
+  try {
+    const bookingsQuery = query(collection(db, "equipment_bookings"), where("date", "<", todayStr));
+    const snapshot = await getDocs(bookingsQuery);
+    let deleted = 0;
+    for (const docSnap of snapshot.docs) {
+      await deleteDoc(doc(db, "equipment_bookings", docSnap.id));
+      deleted++;
+    }
+    if (deleted > 0) console.log(`Auto-cleanup: ${deleted} reservas antigas removidas`);
+  } catch (e) {
+    console.warn("Auto-cleanup equipment_bookings:", e.message);
+  }
+}
+
+// ==========================================
 // INITIALIZATION
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
   initUploadForm();
+
+  // Auto-cleanup de dados antigos (roda em background)
+  runAutoCleanup();
+
   // Firebase realtime listener for queue
   const q = query(collection(db, "print_jobs"), where("status", "==", "pending"));
   onSnapshot(q, (snapshot) => {
