@@ -962,9 +962,9 @@ function renderPrintQueue() {
   }
 
   const typeLabels = {
-    atividade: '<span class="badge" style="background: var(--blue-50); color: var(--blue-500); border-color: var(--blue-200);">📘 Atividade</span>',
-    avaliacao: '<span class="badge" style="background: var(--red-50); color: var(--red-500); border-color: var(--red-200);">🛑 Avaliação Bimestral</span>',
-    recuperacao: '<span class="badge" style="background: var(--yellow-50); color: var(--yellow-600); border-color: var(--yellow-300);">⚠️ Recuperação</span>',
+    atividade: '<span class="badge badge--atividade">📘 Atividade</span>',
+    avaliacao: '<span class="badge badge--avaliacao">🛑 Avaliação Bimestral</span>',
+    recuperacao: '<span class="badge badge--recuperacao">⚠️ Recuperação</span>',
   };
 
   container.innerHTML = queue
@@ -973,7 +973,7 @@ function renderPrintQueue() {
       <div class="queue-item" id="queue-item-${item.id}">
         <div class="queue-item__number">${index + 1}</div>
         <div class="queue-item__info">
-          <div class="queue-item__professor" style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+          <div class="queue-item__professor queue-professor-row">
             ${escapeHtml(item.professorName)}
             ${item.docType ? typeLabels[item.docType] : typeLabels.atividade}
           </div>
@@ -982,7 +982,7 @@ function renderPrintQueue() {
             <span class="queue-item__detail" title="${escapeHtml(item.turmaName)}">🏫 ${escapeHtml(item.turmaName).length > 30 ? escapeHtml(item.turmaName).substring(0, 30) + '...' : escapeHtml(item.turmaName)}</span>
             <span class="queue-item__detail">📋 ${item.copies} cópias</span>
             <span class="queue-item__detail">🕐 ${formatDate(item.createdAt)}</span>
-            ${item.observations ? `<div style="width: 100%; margin-top: 4px; padding: 6px; background: var(--yellow-50); border: 1px dashed var(--yellow-400); color: var(--yellow-600); border-radius: 4px;"><strong>Obs:</strong> ${escapeHtml(item.observations)}</div>` : ''}
+            ${item.observations ? `<div class="obs-box"><strong>Obs:</strong> ${escapeHtml(item.observations)}</div>` : ''}
           </div>
         </div>
         <div class="queue-item__actions">
@@ -1214,7 +1214,7 @@ function renderTeacherDashboard() {
           </div>
           <div class="dashboard-item__meta">
             <span class="dashboard-item__usage">${t.copies} de ${CONFIG.MONTHLY_LIMIT} folhas</span>
-            <span class="dashboard-item__pct" style="color: ${pct >= 90 ? 'var(--red-500)' : pct >= 70 ? 'var(--yellow-600)' : 'var(--green-600)'}">${Math.round(pct)}%</span>
+            <span class="dashboard-item__pct ${pct >= 90 ? 'pct--danger' : pct >= 70 ? 'pct--warn' : 'pct--safe'}">${Math.round(pct)}%</span>
           </div>
         </div>
       </div>
@@ -1275,7 +1275,7 @@ function renderCoordDashboard() {
           <div class="dashboard-bar"><div class="dashboard-bar__fill ${barClass}" style="width: ${pct}%"></div></div>
           <div class="dashboard-item__meta">
             <span class="dashboard-item__usage">${t.copies} de ${CONFIG.MONTHLY_LIMIT} folhas</span>
-            <span class="dashboard-item__pct" style="color: ${pct >= 90 ? 'var(--red-500)' : pct >= 70 ? 'var(--yellow-600)' : 'var(--green-600)'}">${Math.round(pct)}%</span>
+            <span class="dashboard-item__pct ${pct >= 90 ? 'pct--danger' : pct >= 70 ? 'pct--warn' : 'pct--safe'}">${Math.round(pct)}%</span>
           </div>
         </div>
       </div>`;
@@ -1320,15 +1320,15 @@ function renderCoordActivities() {
   }
 
   const typeLabels = {
-    atividade: '<span class="badge" style="background:var(--blue-50);color:var(--blue-500);border-color:var(--blue-200)">📘 Atividade</span>',
-    avaliacao: '<span class="badge" style="background:var(--red-50);color:var(--red-500);border-color:var(--red-200)">🛑 Avaliação</span>',
-    recuperacao: '<span class="badge" style="background:var(--yellow-50);color:var(--yellow-600);border-color:var(--yellow-300)">⚠️ Recuperação</span>'
+    atividade: '<span class="badge badge--atividade">📘 Atividade</span>',
+    avaliacao: '<span class="badge badge--avaliacao">🛑 Avaliação</span>',
+    recuperacao: '<span class="badge badge--recuperacao">⚠️ Recuperação</span>'
   };
 
   container.innerHTML = filtered.map(item => `
     <div class="queue-item">
       <div class="queue-item__info">
-        <div class="queue-item__professor" style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+        <div class="queue-item__professor queue-professor-row">
           ${escapeHtml(item.professorName)}
           ${typeLabels[item.docType] || typeLabels.atividade}
         </div>
@@ -1338,7 +1338,7 @@ function renderCoordActivities() {
           <span class="queue-item__detail">📋 ${item.copies} cópias</span>
           <span class="queue-item__detail">🕐 ${formatDate(item.createdAt)}</span>
           <span class="queue-item__detail">${item.status === 'printed' ? '✅ Impressa' : '🟡 Na fila'}</span>
-          ${item.observations ? `<div style="width:100%;margin-top:4px;padding:6px;background:var(--yellow-50);border:1px dashed var(--yellow-400);color:var(--yellow-600);border-radius:4px"><strong>Obs:</strong> ${escapeHtml(item.observations)}</div>` : ''}
+          ${item.observations ? `<div class="obs-box"><strong>Obs:</strong> ${escapeHtml(item.observations)}</div>` : ''}
         </div>
       </div>
       <div class="queue-item__actions">
@@ -1669,7 +1669,7 @@ function renderScheduleGrid() {
       html += `
         <div class="schedule-cell ${statusClass}" onclick="openBookingModal('${shift.id}', ${classSlot}, '${dateStr}')">
           <div class="schedule-status ${statusBadge}">${statusText}</div>
-          <div style="font-size: 10px; color: var(--gray-500);">${bookedCount} agendados</div>
+          <div class="schedule-cell__count">${bookedCount} agendados</div>
         </div>
       `;
     });
@@ -1804,10 +1804,10 @@ function renderAdminBookings() {
         <div class="admin-booking-info">
           <h4>${b.equipmentName}</h4>
           <p><strong>${shiftName} - ${b.classSlot}ª Aula</strong></p>
-          <p style="margin-top: 4px; color: var(--gray-700);">👤 Prof(a). ${b.professorName}</p>
+          <p class="booking-professor">👤 Prof(a). ${b.professorName}</p>
         </div>
-        <div style="text-align: right;">
-           <span class="schedule-status schedule-status--partial" style="font-size: 12px; padding: 4px 10px;">Agendado</span>
+        <div class="booking-status">
+           <span class="schedule-status schedule-status--partial booking-status-label">Agendado</span>
         </div>
       </div>
     `;
