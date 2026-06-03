@@ -340,6 +340,10 @@ function buildSidebarNav(view) {
   if (!config) return;
 
   document.getElementById('sidebar-role-label').textContent = config.roleLabel;
+  const mobileRole = document.getElementById('mobile-header-role');
+  if (mobileRole) {
+    mobileRole.textContent = config.roleLabel;
+  }
 
   const nav = document.getElementById('sidebar-nav');
   let html = '';
@@ -517,7 +521,11 @@ window.showLoginScreen = showLoginScreen;
 
 function closeMenuDrawer() {
   document.getElementById('sidebar').classList.remove('sidebar--open');
-  document.getElementById('sidebar-overlay').style.display = 'none';
+  const overlay = document.getElementById('sidebar-overlay');
+  if (overlay) {
+    overlay.classList.remove('sidebar-overlay--visible');
+  }
+  document.body.classList.remove('menu-open');
 }
 
 // ==========================================
@@ -1448,11 +1456,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const overlay = document.getElementById('sidebar-overlay');
     const isOpen = sidebar.classList.toggle('sidebar--open');
     if (isOpen) {
-      overlay.style.display = 'block';
+      overlay.classList.add('sidebar-overlay--visible');
+      document.body.classList.add('menu-open');
     } else {
-      overlay.style.display = 'none';
+      overlay.classList.remove('sidebar-overlay--visible');
+      document.body.classList.remove('menu-open');
     }
   });
+
+  // Close menu on close button click
+  const closeBtn = document.getElementById('sidebar-close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeMenuDrawer);
+  }
 
   // Close drawer on overlay click
   document.getElementById('sidebar-overlay').addEventListener('click', closeMenuDrawer);

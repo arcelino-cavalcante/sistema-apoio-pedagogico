@@ -86,6 +86,12 @@
           <span class="sidebar__brand-title">Sistema de Apoio Pedagógico</span>
           <span class="sidebar__brand-role" id="sidebar-role-label">Portal do Professor</span>
         </div>
+        <button class="sidebar__close" id="sidebar-close" aria-label="Fechar menu">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
       </div>
 
       <nav class="sidebar__nav" id="sidebar-nav">
@@ -102,9 +108,29 @@
 
     <!-- Main Content -->
     <main class="main-content" id="main-content">
-      <button class="sidebar__hamburger" id="sidebar-hamburger" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
+      <!-- Mobile Header -->
+      <header class="mobile-header">
+        <div class="mobile-header__left">
+          <button class="mobile-header__hamburger" id="sidebar-hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+          </button>
+          <div class="mobile-header__brand">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="9" cy="10" r="2.5"/>
+              <circle cx="15" cy="10" r="2.5"/>
+              <path d="M8 16c0 0 1.5 3 4 3s4-3 4-3"/>
+              <line x1="5" y1="6" x2="3" y2="3"/>
+              <line x1="19" y1="6" x2="21" y2="3"/>
+              <path d="M6 17l-2 3"/>
+              <path d="M18 17l2 3"/>
+            </svg>
+            <span class="mobile-header__title">Pedagógico</span>
+          </div>
+        </div>
+        <span class="mobile-header__role" id="mobile-header-role">Portal do Professor</span>
+      </header>
+
       <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
       <!-- ====== TEACHER VIEW ====== -->

@@ -385,40 +385,104 @@ h4 { font-size: var(--text-lg); }
   color: var(--white);
 }
 
-/* ---------- Hamburger (mobile) ---------- */
-.sidebar__hamburger {
+/* ---------- Mobile Header ---------- */
+.mobile-header {
   display: none;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  padding: 0 var(--space-4);
+  z-index: 150;
+}
+
+.mobile-header__left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.mobile-header__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.mobile-header__brand svg {
+  color: var(--blue-600);
+}
+
+.mobile-header__title {
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+  color: var(--blue-600);
+  letter-spacing: -0.01em;
+}
+
+.mobile-header__role {
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+  background: var(--blue-50);
+  color: var(--blue-600);
+  padding: 2px var(--space-2);
+  border: 1px solid var(--blue-100);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.mobile-header__hamburger {
   background: none;
   border: none;
   cursor: pointer;
-  padding: var(--space-1);
+  padding: var(--space-2);
+  display: flex;
   flex-direction: column;
   gap: 4px;
-  width: 28px;
-  height: 22px;
+  width: 40px;
+  height: 40px;
   justify-content: center;
   align-items: center;
-  flex-shrink: 0;
+  margin-left: -var(--space-2);
 }
 
-.sidebar__hamburger span {
+.mobile-header__hamburger span {
   display: block;
   width: 20px;
   height: 2px;
-  background: var(--white);
-  transition: all 0.3s ease;
+  background: var(--gray-700);
+  transition: transform 0.2s, opacity 0.2s;
 }
 
-.sidebar--open .sidebar__hamburger span:nth-child(1) {
-  transform: translateY(6px) rotate(45deg);
+/* Sidebar Close Button */
+.sidebar__close {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--white);
+  cursor: pointer;
+  padding: var(--space-2);
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  transition: opacity 0.2s;
 }
 
-.sidebar--open .sidebar__hamburger span:nth-child(2) {
-  opacity: 0;
+.sidebar__close:hover {
+  opacity: 1;
 }
 
-.sidebar--open .sidebar__hamburger span:nth-child(3) {
-  transform: translateY(-6px) rotate(-45deg);
+.sidebar__close svg {
+  width: 20px;
+  height: 20px;
+}
+
+body.menu-open {
+  overflow: hidden;
 }
 
 /* ---------- Main Content ---------- */
@@ -1311,12 +1375,19 @@ tbody tr:hover {
 
 /* ---------- Sidebar Overlay (mobile) ---------- */
 .sidebar-overlay {
-  display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
   z-index: 199;
-  transition: opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-overlay--visible {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* =========================================
@@ -1920,14 +1991,12 @@ tbody tr:hover {
     transform: translateX(0);
   }
 
-  .app-layout:has(.sidebar--open) .sidebar-overlay {
-    display: block;
-  }
-
   .sidebar__brand {
     padding: var(--space-4) var(--space-5);
     gap: var(--space-3);
     border-bottom: 1px solid rgba(255,255,255,0.12);
+    display: flex;
+    align-items: center;
   }
 
   .sidebar__brand svg {
@@ -1947,16 +2016,12 @@ tbody tr:hover {
     flex: 1;
   }
 
-  /* Hamburger — top LEFT */
-  .sidebar__hamburger {
+  .sidebar__close {
     display: flex;
-    position: fixed;
-    top: var(--space-3);
-    left: var(--space-3);
-    z-index: 201;
-    background: var(--blue-500);
-    padding: var(--space-2);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  .mobile-header {
+    display: flex;
   }
 
   .sidebar__nav {
@@ -1992,8 +2057,8 @@ tbody tr:hover {
 
   .main-content {
     margin-left: 0;
-    padding: var(--space-3);
-    padding-top: var(--space-12);
+    margin-top: 56px;
+    padding: var(--space-4) var(--space-3);
   }
 
   /* Page header */
