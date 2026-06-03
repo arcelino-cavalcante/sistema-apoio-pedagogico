@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Apoio Pedagógico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ========== LOGIN OVERLAY ========== -->
+  <div class="login-overlay" id="login-overlay">
+    <div class="login-container">
+      <div class="login-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48">
+          <circle cx="12" cy="12" r="10"/>
+          <circle cx="9" cy="10" r="2.5"/>
+          <circle cx="15" cy="10" r="2.5"/>
+          <path d="M8 16c0 0 1.5 3 4 3s4-3 4-3"/>
+          <line x1="5" y1="6" x2="3" y2="3"/>
+          <line x1="19" y1="6" x2="21" y2="3"/>
+          <path d="M6 17l-2 3"/>
+          <path d="M18 17l2 3"/>
+        </svg>
+        <h1>Sistema de Apoio Pedagógico</h1>
+      </div>
+      <p class="login-subtitle">Selecione a interface desejada</p>
+
+      <div class="login-cards">
+        <div class="login-card" data-interface="teacher">
+          <div class="login-card__icon">👨‍🏫</div>
+          <h3>Portal do Professor</h3>
+          <p>Enviar atividades e agendar equipamentos</p>
+        </div>
+        <div class="login-card" data-interface="print">
+          <div class="login-card__icon">🖨️</div>
+          <h3>Sala de Impressão</h3>
+          <p>Gerenciar fila de impressão</p>
+          <div class="login-card__badge">🔒 Senha necessária</div>
+        </div>
+        <div class="login-card" data-interface="equipment-admin">
+          <div class="login-card__icon">📦</div>
+          <h3>Materiais Pedagógicos</h3>
+          <p>Reservas de equipamentos e controle de retiradas</p>
+          <div class="login-card__badge">🔒 Senha necessária</div>
+        </div>
+        <div class="login-card" data-interface="coordination">
+          <div class="login-card__icon">📋</div>
+          <h3>Coordenação</h3>
+          <p>Dashboard e acompanhamento de atividades</p>
+          <div class="login-card__badge">🔒 Senha necessária</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== APP LAYOUT (sidebar + main) ========== -->
+  <div class="app-layout" id="app-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar__brand">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28">
+          <circle cx="12" cy="12" r="10"/>
+          <circle cx="9" cy="10" r="2.5"/>
+          <circle cx="15" cy="10" r="2.5"/>
+          <path d="M8 16c0 0 1.5 3 4 3s4-3 4-3"/>
+          <line x1="5" y1="6" x2="3" y2="3"/>
+          <line x1="19" y1="6" x2="21" y2="3"/>
+          <path d="M6 17l-2 3"/>
+          <path d="M18 17l2 3"/>
+        </svg>
+        <div>
+          <span class="sidebar__brand-title">Sistema de Apoio Pedagógico</span>
+          <span class="sidebar__brand-role" id="sidebar-role-label">Portal do Professor</span>
+        </div>
+      </div>
+
+      <nav class="sidebar__nav" id="sidebar-nav">
+        <!-- Populated dynamically based on interface -->
+      </nav>
+
+      <button class="sidebar__back-btn" id="sidebar-back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+        Trocar Interface
+      </button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+
+      <!-- ====== TEACHER VIEW ====== -->
+      <section class="view" id="view-teacher">
+        <div class="page-header">
+          <h1 class="page-header__title">Área do Professor</h1>
+          <p class="page-header__subtitle">Envie atividades para impressão e acompanhe sua cota mensal</p>
+        </div>
+
+        <!-- Upload Section -->
+        <div id="teacher-upload-section">
+          <div class="card card--blue">
+            <div class="card__header">
+              <h3 class="card__title">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="12" y1="18" x2="12" y2="12"/>
+                  <polyline points="9 15 12 12 15 15"/>
+                </svg>
+                Nova Impressão
+              </h3>
+            </div>
+
+            <div class="info-box">
+              <div class="info-box__icon">📝</div>
+              <div class="info-box__text">
+                <strong>Como funciona:</strong> Selecione seu turno e nome, marque as turmas, escolha a quantidade de cópias e faça o upload do arquivo (PDF, Word ou imagem). O sistema calcula automaticamente o número de alunos e verifica sua cota mensal de <strong>500 folhas</strong>. Ao clicar em <strong>"Enviar para Impressão"</strong>, o arquivo vai para a fila de impressão da escola.
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="turno-select">Turno</label>
+                <select class="form-select" id="turno-select">
+                  <option value="">Selecione o turno...</option>
+                  <option value="manha">Manhã (Infantil / Iniciais)</option>
+                  <option value="tarde-noite">Tarde/Noite (Finais / EJA)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="professor-select">Professor</label>
+                <select class="form-select" id="professor-select" disabled>
+                  <option value="">Primeiro selecione o turno...</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Turmas (selecione uma ou mais)</label>
+              <div class="turmas-list" id="turmas-list"></div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Quantidade de Cópias</label>
+                <div class="radio-group">
+                  <label class="radio-label"><input type="radio" name="qty-type" value="individual" checked> 1 por aluno</label>
+                  <label class="radio-label"><input type="radio" name="qty-type" value="dupla"> Em dupla</label>
+                  <label class="radio-label"><input type="radio" name="qty-type" value="trio"> Em trio</label>
+                  <label class="radio-label"><input type="radio" name="qty-type" value="custom"> Personalizado</label>
+                </div>
+                <input type="number" class="form-input mt-2" id="custom-qty-input" placeholder="Digite a quantidade..." style="display: none;" min="1">
+                <div class="info-badge mt-2" id="student-count-badge" style="display: none; width: 100%;"></div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="obs-input">Observações (opcional)</label>
+                <textarea class="form-input" id="obs-input" rows="4" placeholder="Ex: imprimir colorida, apenas frente, etc."></textarea>
+              </div>
+            </div>
+
+            <div class="form-group mt-2 mb-4">
+              <label class="form-label">Tipo de Documento</label>
+              <div class="radio-group" style="flex-direction: row; gap: var(--space-4); flex-wrap: wrap;">
+                <label class="radio-label"><input type="radio" name="doc-type" value="atividade" checked> Atividade</label>
+                <label class="radio-label"><input type="radio" name="doc-type" value="avaliacao"> Avaliação Bimestral</label>
+                <label class="radio-label"><input type="radio" name="doc-type" value="recuperacao"> Recuperação Bimestral</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Arquivo da Atividade/Prova</label>
+              <div class="upload-area" id="upload-area">
+                <div class="upload-area__icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
+                  </svg>
+                </div>
+                <div class="upload-area__text">Arraste o arquivo aqui ou <strong>clique para selecionar</strong></div>
+                <div class="upload-area__hint">PDF, DOC, DOCX, JPG, PNG — Máximo 50MB</div>
+                <input type="file" id="file-input" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.xls,.xlsx,.ppt,.pptx">
+              </div>
+            </div>
+
+            <button class="btn btn--primary btn--lg btn--full mt-4" id="submit-print-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 6 2 18 2 18 9"/>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                <rect x="6" y="14" width="12" height="8"/>
+              </svg>
+              Enviar para Impressão
+            </button>
+          </div>
+        </div>
+
+        <!-- History Section -->
+        <div id="teacher-history-section" style="display: none;">
+          <div class="card card--yellow">
+            <div class="card__header">
+              <h3 class="card__title">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                Minha Quantidade Impressa
+              </h3>
+            </div>
+
+            <div class="info-box info-box--yellow">
+              <div class="info-box__icon">📊</div>
+              <div class="info-box__text">
+                <strong>Como funciona:</strong> Selecione seu turno e nome para visualizar sua cota mensal. A barra mostra o consumo do mês atual — <strong>verde</strong> está tranquilo, <strong>amarelo</strong> atenção (70%), <strong>vermelho</strong> quase no limite (90%). Abaixo você vê o histórico completo com todas as impressões enviadas no mês e seus status (🟡 na fila ou ✅ impressa).
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="history-turno-select">Turno</label>
+                <select class="form-select" id="history-turno-select">
+                  <option value="">Selecione o turno...</option>
+                  <option value="manha">Manhã (Infantil / Iniciais)</option>
+                  <option value="tarde-noite">Tarde/Noite (Finais / EJA)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="history-professor-select">Selecione seu nome</label>
+                <select class="form-select" id="history-professor-select" disabled>
+                  <option value="">Primeiro selecione o turno...</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div id="teacher-quota-section" style="display: none;">
+            <div class="stats-grid">
+              <div class="stat-card"><div class="stat-card__value" id="quota-used-value">0</div><div class="stat-card__label">Folhas Usadas</div></div>
+              <div class="stat-card stat-card--yellow"><div class="stat-card__value" id="quota-limit-value">500</div><div class="stat-card__label">Limite Mensal</div></div>
+              <div class="stat-card stat-card--green"><div class="stat-card__value" id="quota-remaining-value">500</div><div class="stat-card__label">Restantes</div></div>
+            </div>
+            <div class="card">
+              <div class="quota-info"><span class="quota-info__used" id="quota-month-name"></span></div>
+              <div class="quota-bar"><div class="quota-bar__fill" id="quota-bar-fill" style="width: 0%"></div></div>
+              <div style="display: flex; justify-content: space-between; font-size: var(--text-xs); color: var(--gray-400);">
+                <span>0 folhas</span><span>500 folhas</span>
+              </div>
+            </div>
+            <div class="section-divider"><span class="section-divider__text">Histórico de Impressões</span></div>
+          </div>
+
+          <div id="teacher-history-list">
+            <div class="empty-state">
+              <div class="empty-state__icon">👆</div>
+              <div class="empty-state__text">Selecione um professor acima</div>
+              <div class="empty-state__subtext">para ver a cota e o histórico de impressões</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Equipment Booking Section -->
+        <div id="teacher-equipment-section" style="display: none;">
+          <div class="card">
+            <div class="card__header" style="flex-direction: column; align-items: flex-start; gap: var(--space-4);">
+              <h3 class="card__title">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Grade de Agendamentos
+              </h3>
+            </div>
+
+            <div class="info-box info-box--blue">
+              <div class="info-box__icon">📅</div>
+              <div class="info-box__text">
+                <strong>Como funciona:</strong> A grade mostra 5 horários de aula por turno (Manhã, Tarde, Noite). As cores indicam disponibilidade: <strong style="color: var(--green-600);">verde</strong> = livre, <strong style="color: var(--yellow-600);">amarelo</strong> = parcialmente ocupado, <strong style="color: var(--gray-500);">cinza</strong> = esgotado. Clique em uma célula para reservar um equipamento (Datashow, Microfone, Caixa de Som, Notebook, TV). Escolha a data desejada e veja a disponibilidade em tempo real.
+              </div>
+            </div>
+
+            <div class="form-group" style="width: 100%; max-width: 300px; margin-bottom: var(--space-4);">
+              <label class="form-label" for="booking-date">Escolha a data:</label>
+              <input type="date" class="form-input" id="booking-date">
+            </div>
+
+            <div class="schedule-grid" id="schedule-grid"></div>
+            <div style="display: flex; gap: var(--space-4); margin-top: var(--space-4); font-size: var(--text-sm); color: var(--gray-500);">
+              <div style="display: flex; align-items: center; gap: 8px;"><div style="width: 16px; height: 16px; background: var(--green-100); border: 1px solid var(--green-300); border-radius: 4px;"></div> Livre</div>
+              <div style="display: flex; align-items: center; gap: 8px;"><div style="width: 16px; height: 16px; background: var(--yellow-100); border: 1px solid var(--yellow-300); border-radius: 4px;"></div> Parcial</div>
+              <div style="display: flex; align-items: center; gap: 8px;"><div style="width: 16px; height: 16px; background: var(--gray-200); border: 1px solid var(--gray-300); border-radius: 4px;"></div> Esgotado</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== PRINT VIEW ====== -->
+      <section class="view" id="view-print">
+        <div class="page-header">
+          <h1 class="page-header__title">Painel de Impressão</h1>
+          <p class="page-header__subtitle">Gerencie a fila de impressão e marque atividades como impressas</p>
+        </div>
+        <div class="tabs">
+          <button class="tab-btn tab-btn--active" data-tab="queue" id="tab-queue">Fila de Impressão <span class="tab-btn__count" id="queue-count">0</span></button>
+          <button class="tab-btn" data-tab="history" id="tab-history">Já Impressas <span class="tab-btn__count" id="history-count">0</span></button>
+          <button class="tab-btn" data-tab="dashboard" id="tab-dashboard">📊 Dashboard <span class="tab-btn__count" id="dashboard-count">0</span></button>
+        </div>
+        <div class="tab-panel tab-panel--active" id="print-queue-panel">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); flex-wrap: wrap; gap: var(--space-2);">
+            <div style="font-size: var(--text-sm); color: var(--gray-500);">Filtre os documentos recebidos:</div>
+            <select class="form-select" id="queue-filter-select" style="width: auto; min-width: 200px;">
+              <option value="todos">Todos os Tipos</option>
+              <option value="atividade">Apenas Atividades</option>
+              <option value="avaliacao">Apenas Avaliações</option>
+              <option value="recuperacao">Apenas Recuperações</option>
+            </select>
+          </div>
+          <div id="print-queue-list">
+            <div class="empty-state"><div class="empty-state__icon">✨</div><div class="empty-state__text">Nenhuma impressão na fila</div></div>
+          </div>
+        </div>
+        <div class="tab-panel" id="print-history-panel">
+          <div id="print-history-list">
+            <div class="empty-state"><div class="empty-state__icon">📋</div><div class="empty-state__text">Nenhuma impressão realizada ainda</div></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="print-dashboard-panel">
+          <div class="dashboard-summary" id="dashboard-summary"></div>
+          <div class="form-group" style="max-width: 250px; margin-bottom: var(--space-4);">
+            <select class="form-select" id="dashboard-filter" style="width: 100%;">
+              <option value="all">Todos os professores</option>
+              <option value="manha">Apenas Manhã</option>
+              <option value="tarde-noite">Apenas Tarde/Noite</option>
+            </select>
+          </div>
+          <div id="dashboard-list">
+            <div class="empty-state"><div class="empty-state__icon">📊</div><div class="empty-state__text">Carregando dados...</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== RESERVAS VIEW ====== -->
+      <section class="view" id="view-equipment-admin">
+        <div class="page-header">
+          <h1 class="page-header__title">Reservas de Equipamentos</h1>
+          <p class="page-header__subtitle">Gerencie os agendamentos de Datashow, caixas de som e outros equipamentos</p>
+        </div>
+
+        <div class="card" id="admin-bookings-card">
+          <div class="card__header" style="flex-direction: column; align-items: flex-start; gap: var(--space-4);">
+            <div style="display: flex; gap: var(--space-4); align-items: flex-end; flex-wrap: wrap;">
+              <div class="form-group" style="min-width: 200px;">
+                <label class="form-label" for="admin-booking-date">Reservas do dia:</label>
+                <input type="date" class="form-input" id="admin-booking-date">
+              </div>
+            </div>
+          </div>
+          <div id="admin-bookings-list">
+            <div class="empty-state"><div class="empty-state__icon">📦</div><div class="empty-state__text">Nenhuma reserva para este dia</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== RETIRADAS VIEW ====== -->
+      <section class="view" id="view-withdrawals-admin">
+        <div class="page-header">
+          <h1 class="page-header__title">Retiradas de Materiais</h1>
+          <p class="page-header__subtitle">Registre e acompanhe a saída de materiais pedagógicos</p>
+        </div>
+
+        <div class="card card--green" id="admin-withdrawals-card">
+          <div class="card__header">
+            <h3 class="card__title">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+              Anotar Retirada
+            </h3>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="flex: 2; min-width: 180px;">
+              <label class="form-label" for="withdrawal-item">Material</label>
+              <input type="text" class="form-input" id="withdrawal-item" list="common-items" placeholder="Ex: lápis, papel, cola...">
+              <datalist id="common-items">
+                <option value="Lápis"><option value="Lápis de Cor"><option value="Caneta"><option value="Borracha">
+                <option value="Cola Branca"><option value="Cola Quente"><option value="Papel A4"><option value="Papel Ofício">
+                <option value="Papel Cartolina"><option value="EVA"><option value="Tesoura"><option value="Régua">
+                <option value="Apontador"><option value="Giz de Cera"><option value="Tinta Guache"><option value="Pincel">
+                <option value="Fita Adesiva"><option value="Durex"><option value="Grampeador"><option value="Clips">
+                <option value="Envelope"><option value="Pasta"><option value="Caderno"><option value="Livro Didático">
+              </datalist>
+            </div>
+            <div class="form-group" style="min-width: 90px;">
+              <label class="form-label" for="withdrawal-qty">Qtd</label>
+              <input type="number" class="form-input" id="withdrawal-qty" min="1" value="1" style="text-align: center;">
+            </div>
+            <div class="form-group" style="min-width: 150px;">
+              <label class="form-label" for="withdrawal-turno-select">Turno</label>
+              <select class="form-select" id="withdrawal-turno-select">
+                <option value="">Selecione...</option>
+                <option value="manha">Manhã</option>
+                <option value="tarde-noite">Tarde/Noite</option>
+              </select>
+            </div>
+            <div class="form-group" style="min-width: 180px;">
+              <label class="form-label" for="withdrawal-professor-select">Professor</label>
+              <select class="form-select" id="withdrawal-professor-select" disabled>
+                <option value="">Primeiro selecione o turno</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="min-width: 150px;">
+              <label class="form-label" for="withdrawal-date">Data</label>
+              <input type="date" class="form-input" id="withdrawal-date">
+            </div>
+          </div>
+          <button class="btn btn--success btn--lg btn--full" id="withdrawal-submit-btn" style="margin-top: var(--space-2);">Registrar Retirada</button>
+        </div>
+
+        <div class="card mt-2" id="admin-withdrawals-history-card">
+          <div class="card__header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-2);">
+            <h3 class="card__title" style="margin-bottom: 0;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+              Histórico de Retiradas
+            </h3>
+            <div class="form-group" style="min-width: 180px; margin-bottom: 0;">
+              <input type="date" class="form-input form-input--sm" id="withdrawal-filter-date">
+            </div>
+          </div>
+          <div id="withdrawals-list">
+            <div class="empty-state"><div class="empty-state__icon">📋</div><div class="empty-state__text">Nenhuma retirada registrada</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== COORDINATION VIEW ====== -->
+      <section class="view" id="view-coordination">
+        <div class="page-header">
+          <h1 class="page-header__title">Coordenação Pedagógica</h1>
+          <p class="page-header__subtitle">Acompanhe o uso de impressões e as atividades enviadas pelos professores</p>
+        </div>
+
+        <div class="tabs">
+          <button class="tab-btn tab-btn--active" data-tab="dashboard" id="coord-tab-dashboard">📊 Dashboard <span class="tab-btn__count" id="coord-dashboard-count">0</span></button>
+          <button class="tab-btn" data-tab="activities" id="coord-tab-activities">📄 Atividades <span class="tab-btn__count" id="coord-activities-count">0</span></button>
+        </div>
+
+        <!-- Dashboard Panel -->
+        <div class="tab-panel tab-panel--active" id="coord-dashboard-panel">
+          <div class="dashboard-summary" id="coord-dashboard-summary"></div>
+          <div class="form-group" style="max-width: 250px; margin-bottom: var(--space-4);">
+            <select class="form-select" id="coord-dashboard-filter" style="width: 100%;">
+              <option value="all">Todos os professores</option>
+              <option value="manha">Apenas Manhã</option>
+              <option value="tarde-noite">Apenas Tarde/Noite</option>
+            </select>
+          </div>
+          <div id="coord-dashboard-list">
+            <div class="empty-state"><div class="empty-state__icon">📊</div><div class="empty-state__text">Carregando dados...</div></div>
+          </div>
+        </div>
+
+        <!-- Activities Panel -->
+        <div class="tab-panel" id="coord-activities-panel">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); flex-wrap: wrap; gap: var(--space-2);">
+            <div style="font-size: var(--text-sm); color: var(--gray-500);">Filtre as atividades enviadas:</div>
+            <select class="form-select" id="coord-activities-filter" style="width: auto; min-width: 220px;">
+              <option value="all">Todas as Atividades</option>
+              <option value="atividade">📘 Apenas Atividades</option>
+              <option value="avaliacao">🛑 Apenas Avaliações Bimestrais</option>
+              <option value="recuperacao">⚠️ Apenas Recuperações</option>
+            </select>
+          </div>
+          <div id="coord-activities-list">
+            <div class="empty-state"><div class="empty-state__icon">📄</div><div class="empty-state__text">Nenhuma atividade encontrada</div></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ========== PASSWORD MODAL ========== -->
+  <div class="modal-overlay" id="password-modal">
+    <div class="modal">
+      <h2 class="modal__title">🔒 Acesso Restrito</h2>
+      <p class="modal__subtitle">Digite a senha para acessar</p>
+      <div class="modal__error" id="password-error">Senha incorreta. Tente novamente.</div>
+      <div class="form-group">
+        <label class="form-label" for="password-input">Senha</label>
+        <input type="password" class="form-input" id="password-input" placeholder="Digite a senha..." autocomplete="off">
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn--primary btn--lg" style="flex: 1;" id="password-submit-btn">Entrar</button>
+        <button class="btn btn--outline btn--lg" id="password-cancel-btn">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== BOOKING MODAL ========== -->
+  <div class="modal-overlay" id="booking-modal">
+    <div class="modal modal--large">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-4);">
+        <div>
+          <h2 class="modal__title" id="booking-modal-title">Agendar Equipamento</h2>
+          <p class="modal__subtitle" id="booking-modal-subtitle">15/05/2026 - Manhã, 1ª Aula</p>
+        </div>
+        <button class="btn btn--outline" id="booking-close-btn" style="padding: 8px;">✕</button>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="booking-turno-select">Turno</label>
+          <select class="form-select" id="booking-turno-select">
+            <option value="">Selecione o turno...</option>
+            <option value="manha">Manhã (Infantil / Iniciais)</option>
+            <option value="tarde-noite">Tarde/Noite (Finais / EJA)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="booking-professor-select">Seu Nome</label>
+          <select class="form-select" id="booking-professor-select" disabled>
+            <option value="">Primeiro selecione o turno...</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group mt-4">
+        <label class="form-label">Equipamentos Disponíveis</label>
+        <div id="available-equipment-list" class="equipment-list"></div>
+      </div>
+      <div style="display: flex; gap: 8px; margin-top: var(--space-6);">
+        <button class="btn btn--primary btn--lg" style="flex: 1;" id="booking-submit-btn">Confirmar Reserva</button>
+        <button class="btn btn--outline btn--lg" id="booking-cancel-btn">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== CONFIRM MODAL ========== -->
+  <div class="modal-overlay" id="confirm-modal">
+    <div class="modal">
+      <h2 class="modal__title" id="confirm-modal-title">Confirmação</h2>
+      <p class="modal__subtitle" id="confirm-modal-message">Tem certeza?</p>
+      <div style="display: flex; gap: 8px; margin-top: var(--space-6);">
+        <button class="btn btn--danger btn--lg" style="flex: 1;" id="confirm-modal-yes">Sim, confirmar</button>
+        <button class="btn btn--outline btn--lg" style="flex: 1;" id="confirm-modal-no">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== TOAST CONTAINER ========== -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script type="module" src="app.js?v=3"></script>
+</body>
+</html>
