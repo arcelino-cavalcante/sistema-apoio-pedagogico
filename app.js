@@ -356,6 +356,7 @@ function buildSidebarNav(view) {
   // Add click listeners
   nav.querySelectorAll('.sidebar__link').forEach(btn => {
     btn.addEventListener('click', () => {
+      closeMenuDrawer();
       const tabId = btn.dataset.sidebar;
       currentSidebarTab = tabId;
 
@@ -508,10 +509,16 @@ function openInterface(view) {
 
 function showLoginScreen() {
   Store.isAuthenticated = false;
+  closeMenuDrawer();
   document.getElementById('app-layout').style.display = 'none';
   document.getElementById('login-overlay').style.display = 'flex';
 }
 window.showLoginScreen = showLoginScreen;
+
+function closeMenuDrawer() {
+  document.getElementById('sidebar').classList.remove('sidebar--open');
+  document.getElementById('sidebar-overlay').style.display = 'none';
+}
 
 // ==========================================
 // PASSWORD MODAL
@@ -1430,12 +1437,25 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Sidebar back button
-  document.getElementById('sidebar-back-btn').addEventListener('click', showLoginScreen);
+  document.getElementById('sidebar-back-btn').addEventListener('click', () => {
+    closeMenuDrawer();
+    showLoginScreen();
+  });
 
   // Hamburger menu toggle
   document.getElementById('sidebar-hamburger').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.toggle('sidebar--open');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const isOpen = sidebar.classList.toggle('sidebar--open');
+    if (isOpen) {
+      overlay.style.display = 'block';
+    } else {
+      overlay.style.display = 'none';
+    }
   });
+
+  // Close drawer on overlay click
+  document.getElementById('sidebar-overlay').addEventListener('click', closeMenuDrawer);
 
   // Init schedule grid
   const now = new Date();

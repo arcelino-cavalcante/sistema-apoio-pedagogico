@@ -71,9 +71,6 @@
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar__brand">
-        <button class="sidebar__hamburger" id="sidebar-hamburger" aria-label="Menu">
-          <span></span><span></span><span></span>
-        </button>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28">
           <circle cx="12" cy="12" r="10"/>
           <circle cx="9" cy="10" r="2.5"/>
@@ -104,6 +101,10 @@
 
     <!-- Main Content -->
     <main class="main-content" id="main-content">
+      <button class="sidebar__hamburger" id="sidebar-hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
       <!-- ====== TEACHER VIEW ====== -->
       <section class="view" id="view-teacher">
