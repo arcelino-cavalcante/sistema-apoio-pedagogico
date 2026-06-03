@@ -32,26 +32,34 @@
       <div class="login-cards">
         <div class="login-card" data-interface="teacher">
           <div class="login-card__icon">👨‍🏫</div>
-          <h3>Portal do Professor</h3>
-          <p>Enviar atividades e agendar equipamentos</p>
+          <div class="login-card__body">
+            <h3>Portal do Professor</h3>
+            <p>Enviar atividades e agendar equipamentos</p>
+          </div>
         </div>
         <div class="login-card" data-interface="print">
           <div class="login-card__icon">🖨️</div>
-          <h3>Sala de Impressão</h3>
-          <p>Gerenciar fila de impressão</p>
-          <div class="login-card__badge">🔒 Senha necessária</div>
+          <div class="login-card__body">
+            <h3>Sala de Impressão</h3>
+            <p>Gerenciar fila de impressão</p>
+            <div class="login-card__badge">🔒 Senha necessária</div>
+          </div>
         </div>
         <div class="login-card" data-interface="equipment-admin">
           <div class="login-card__icon">📦</div>
-          <h3>Materiais Pedagógicos</h3>
-          <p>Reservas de equipamentos e controle de retiradas</p>
-          <div class="login-card__badge">🔒 Senha necessária</div>
+          <div class="login-card__body">
+            <h3>Materiais Pedagógicos</h3>
+            <p>Reservas de equipamentos e controle de retiradas</p>
+            <div class="login-card__badge">🔒 Senha necessária</div>
+          </div>
         </div>
         <div class="login-card" data-interface="coordination">
           <div class="login-card__icon">📋</div>
-          <h3>Coordenação</h3>
-          <p>Dashboard e acompanhamento de atividades</p>
-          <div class="login-card__badge">🔒 Senha necessária</div>
+          <div class="login-card__body">
+            <h3>Coordenação Pedagógica</h3>
+            <p>Dashboard e acompanhamento de atividades</p>
+            <div class="login-card__badge">🔒 Senha necessária</div>
+          </div>
         </div>
       </div>
     </div>
@@ -63,6 +71,9 @@
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar__brand">
+        <button class="sidebar__hamburger" id="sidebar-hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28">
           <circle cx="12" cy="12" r="10"/>
           <circle cx="9" cy="10" r="2.5"/>

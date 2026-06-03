@@ -1432,6 +1432,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Sidebar back button
   document.getElementById('sidebar-back-btn').addEventListener('click', showLoginScreen);
 
+  // Hamburger menu toggle
+  document.getElementById('sidebar-hamburger').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('sidebar--open');
+  });
+
   // Init schedule grid
   const now = new Date();
   const year = now.getFullYear();
